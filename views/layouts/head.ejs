@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= typeof title !== 'undefined' && title ? title + ' · ' : '' %><%= site.brand ? site.brand.name : tenant.name %> Visualizer</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/css/app.css">
+<style>:root{--primary:<%= (site.colors&&site.colors.primary)||'#1f3a2e' %>;--accent:<%= (site.colors&&site.colors.accent)||'#b8893a' %>;--bg:<%= (site.colors&&site.colors.bg)||'#f7f5f0' %>;--text:<%= (site.colors&&site.colors.text)||'#1c1c1c' %>}</style>
+</head>
+<body class="<%= embedMode ? 'embed' : '' %>">
+<% if (!embedMode) { %>
+<header class="site-header">
+  <a class="brand" href="<%= (site.brand && site.brand.siteUrl) || '/' %>"><% if (site.brand && site.brand.logoUrl) { %><img src="<%= site.brand.logoUrl %>" alt="<%= tenant.name %>"><% } else { %><%= tenant.name %><% } %></a>
+  <span class="tag">Shutter Visualizer</span>
+</header>
+<% } %>
+<main class="wrap">

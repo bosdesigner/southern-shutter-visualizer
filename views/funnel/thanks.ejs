@@ -1,0 +1,9 @@
+<%- include('../layouts/head', { title: 'Thanks' }) %>
+<section class="card center">
+  <h1><%= site.copy.thanks %></h1>
+  <p class="muted"><%= session.address %></p>
+  <% if (render && render.secure_url) { %><img class="thanks-img" src="<%= render.secure_url %>" alt="Your home with shutters"><% } %>
+  <p><a class="btn" href="/<%= embedMode ? '?embed=1' : '' %>">Visualize another home</a></p>
+</section>
+<script>if (window.svEmit) window.svEmit('lead_submitted', { sessionId: <%- JSON.stringify(session.id) %> });</script>
+<%- include('../layouts/foot') %>

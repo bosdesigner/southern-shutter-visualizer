@@ -1,0 +1,8 @@
+node_modules/
+# Secrets — never commit. Copy .env.example to .env for local dev.
+.env
+.env.*
+!.env.example
+# Operator output from scripts/verify-template.js (throwaway images, not source).
+/verify-output/
+.DS_Store

@@ -1,0 +1,16 @@
+{
+  "_notes": [
+    "SEED VALUES — flag F3 in the build map. Replace min/max, increments and width conventions once SSC confirms.",
+    "confirmed_by_ssc stays false until Ben records the confirmation; admin/catalog shows the flag.",
+    "width_rule.mode: 'pair' (½ opening per panel, single below single_below_w) or 'single' (full opening).",
+    "width_rule.sections: [[max_h, sections], ...] evaluated in order."
+  ],
+  "rules": [
+    { "style": null, "min_w": 8, "max_w": 36, "min_h": 18, "max_h": 108, "w_increment": 0.25, "h_increment": 0.25,
+      "width_rule": { "mode": "pair", "pair": "half_opening", "single": "full_opening", "single_below_w": 18, "sections": [[48, 1], [72, 2], [1000, 3]] } },
+    { "style": "bahama", "min_w": 18, "max_w": 84, "min_h": 18, "max_h": 84, "w_increment": 0.25, "h_increment": 0.25,
+      "width_rule": { "mode": "single", "single": "full_opening", "sections": [[1000, 1]] } },
+    { "style": "board-batten", "min_w": 10.5, "max_w": 36, "min_h": 18, "max_h": 96, "w_increment": 0.25, "h_increment": 0.25,
+      "width_rule": { "mode": "pair", "pair": "half_opening", "single": "full_opening", "single_below_w": 18, "min_boards": 3, "sections": [[1000, 1]] } }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "slug": "black", "name": "Black", "hex": "#151515", "finish": "satin" },
+  { "slug": "charcoal", "name": "Charcoal", "hex": "#3b3f42", "finish": "satin" },
+  { "slug": "white", "name": "White", "hex": "#f4f2ec", "finish": "satin" },
+  { "slug": "forest-green", "name": "Forest Green", "hex": "#1f3a2e", "finish": "satin" },
+  { "slug": "colonial-blue", "name": "Colonial Blue", "hex": "#2f4a68", "finish": "satin" },
+  { "slug": "burgundy", "name": "Burgundy", "hex": "#5a1f27", "finish": "satin" },
+  { "slug": "natural-cedar", "name": "Natural Cedar (stain)", "hex": "#a0673a", "finish": "stain" }
+]

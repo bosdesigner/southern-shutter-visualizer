@@ -1,0 +1,11 @@
+<%- include('../layouts/head', { title: 'Admin · Leads' }) %>
+<%- include('_nav') %>
+<h1>Quotes</h1>
+<p class="muted">Funnel: <% funnelCounts.forEach(c => { %><span class="pill"><%= c.type %> <b><%= c.n %></b></span> <% }) %></p>
+<table class="grid"><tr><th>When</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Routed to</th><th>Status</th><th></th></tr>
+<% quotes.forEach(q => { %><tr><td><%= new Date(q.created_at).toLocaleString() %></td><td><%= q.name %></td><td><a href="mailto:<%= q.email %>"><%= q.email %></a></td><td><%= q.phone || '' %></td><td><%= q.address %></td><td><%= q.routed_to || '' %></td><td><span class="pill s-<%= q.status %>"><%= q.status %></span></td><td><a href="/admin/sessions/<%= q.session_id %>">session</a></td></tr><% }) %>
+<% if (!quotes.length) { %><tr><td colspan="8" class="muted">No quotes yet.</td></tr><% } %></table>
+<h2>Recent sessions</h2>
+<table class="grid"><tr><th>When</th><th>Address</th><th>Status</th><th>Renders</th><th>Error</th></tr>
+<% sessions.forEach(s => { %><tr><td><%= new Date(s.created_at).toLocaleString() %></td><td><a href="/admin/sessions/<%= s.id %>"><%= s.address %></a></td><td><span class="pill s-<%= s.status %>"><%= s.status %></span></td><td><%= s.renders %></td><td class="muted"><%= s.error || '' %></td></tr><% }) %></table>
+<%- include('../layouts/foot') %>

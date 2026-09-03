@@ -1,0 +1,6 @@
+{
+  "_notes": "Grades per style (SSC hierarchy). Every style gets standard; heavy-duty and designline where SSC sells them.",
+  "default": ["standard", "heavy-duty", "designline"],
+  "names": { "standard": "Standard", "heavy-duty": "Heavy Duty", "designline": "DesignLine" },
+  "byStyle": { "bahama": ["standard", "heavy-duty"], "board-batten": ["standard", "heavy-duty"] }
+}

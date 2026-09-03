@@ -1,0 +1,8 @@
+[
+  { "slug": "fixed-louver", "name": "Fixed Louver", "assemble_template": "fixed-louver", "sort": 1 },
+  { "slug": "paneled", "name": "Raised Panel", "assemble_template": "paneled", "sort": 2 },
+  { "slug": "combination", "name": "Combination", "assemble_template": "combination", "sort": 3 },
+  { "slug": "movable-louver", "name": "Movable Louver", "assemble_template": "movable-louver", "sort": 4 },
+  { "slug": "board-batten", "name": "Board & Batten", "assemble_template": "board-batten", "sort": 5 },
+  { "slug": "bahama", "name": "Bahama", "assemble_template": "bahama", "sort": 6 }
+]

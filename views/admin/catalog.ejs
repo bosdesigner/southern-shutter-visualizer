@@ -1,0 +1,16 @@
+<%- include('../layouts/head', { title: 'Admin · Catalog' }) %>
+<%- include('_nav') %>
+<h1>Catalog</h1>
+<h2>Styles × material lines (variant count / reference assets)</h2>
+<table class="grid"><tr><th>Style</th><th>Template</th><% lines.forEach(l => { %><th><%= l.name %></th><% }) %></tr>
+<% styles.forEach(s => { %><tr><td><b><%= s.name %></b></td><td class="mono"><%= s.assemble_template %></td>
+<% lines.forEach(l => { const vs = variants.filter(v => v.style_id === s.id && v.material_line_id === l.id); const refs = vs.reduce((n, v) => n + v.reference_assets, 0); %><td><%= vs.length %> variants · <%= refs %> ref<%= vs.some(v => !v.renderable) ? ' · not renderable' : '' %></td><% }) %></tr><% }) %></table>
+<h2>Sizing rules <span class="fine">(seed values until confirmed_by_ssc — build map flag F3)</span></h2>
+<table class="grid"><tr><th>Style</th><th>W min–max</th><th>H min–max</th><th>Increments</th><th>Width rule</th><th>Confirmed by SSC</th></tr>
+<% rules.forEach(r => { %><tr><td><%= r.style_slug || '(default)' %></td><td><%= r.min_w %>–<%= r.max_w %></td><td><%= r.min_h %>–<%= r.max_h %></td><td><%= r.w_increment %> / <%= r.h_increment %></td><td class="mono small"><%= JSON.stringify(r.width_rule) %></td><td><%= r.confirmed_by_ssc ? 'yes' : '<b>no</b>' %></td></tr><% }) %></table>
+<h2>Colors</h2>
+<p><% colors.forEach(c => { %><span class="swatch" style="background:<%= c.hex %>"></span> <%= c.name %> (<%= c.finish %>) &nbsp; <% }) %></p>
+<h2>Variants</h2>
+<table class="grid small"><tr><th>Slug</th><th>Grade</th><th>Sections</th><th>Louver</th><th>Rods</th><th>Renderable</th><th>Assets</th></tr>
+<% variants.forEach(v => { %><tr><td class="mono"><%= v.slug %></td><td><%= v.grade %></td><td><%= v.sections %></td><td><%= v.louver_size || '' %></td><td><%= v.control_rods ? 'yes' : '' %></td><td><%= v.renderable ? 'yes' : 'no' %></td><td><%= v.assets %> (<%= v.reference_assets %> ref)</td></tr><% }) %></table>
+<%- include('../layouts/foot') %>

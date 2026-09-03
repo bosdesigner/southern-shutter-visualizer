@@ -1,0 +1,35 @@
+You are performing a measured architectural assessment of the house facade in this photograph for an exterior-shutter estimator. Describe only what is physically visible. Every box is in PIXELS of this image, with x,y the TOP-LEFT corner and w,h the width and height, all integers.
+
+Report, as one JSON object and nothing else:
+
+{
+  "image_wh": [width, height],
+  "stories": integer count of visible above-grade stories,
+  "facade_material": "brick" | "lap siding" | "stucco" | "stone" | "board and batten" | "mixed" | other short phrase,
+  "roof_type": "gable" | "hip" | "gambrel" | "flat" | "mixed",
+  "visibility": "clear" if the whole facade is legible, "partial" if a tree, vehicle or shrub hides some windows but most are readable, "obscured" if most windows cannot be seen,
+  "occlusions": ["short phrase naming what is hidden and where", ...],
+  "reference_objects": [
+    {"type": "front_door", "bbox": {"x":0,"y":0,"w":0,"h":0}, "confidence": 0.0-1.0}
+    — the door SLAB only (not the casing or sidelights); use "front_door_with_trim" instead when the visible edge includes the casing,
+    {"type": "garage_door", "bbox": {...}, "confidence": 0.0-1.0} — the full door panel, one per garage door,
+    {"type": "brick_course", "bbox": {...}, "count": integer, "confidence": 0.0-1.0} — a clean rectangular patch of brick with NO openings; "count" is the exact number of horizontal courses inside the box (count them),
+    {"type": "siding_lap", "bbox": {...}, "count": integer, "reveal_in": number, "confidence": 0.0-1.0} — a clean patch of lap siding; "count" is the number of laps inside the box; "reveal_in" your best estimate of the exposure in inches (4, 6, 7 or 8),
+    {"type": "window_standard", "bbox": {...}, "confidence": 0.0-1.0} — only a plain double-hung window that looks like a stock 36×60
+  ],
+  "openings": [
+    {"kind": "window" | "door" | "garage", "bbox": {"x":0,"y":0,"w":0,"h":0}, "story": 1 | 2 | 3,
+     "existing_shutters": true | false, "shape": "rect" | "arch",
+     "grouped_with": index of another opening this one is mulled together with or null,
+     "label": "short human label such as 'upper left window' or 'window right of door'"}
+  ],
+  "existing_shutter_style_guess": "fixed louver" | "raised panel" | "board and batten" | "bahama" | null
+}
+
+Rules, in priority order:
+1. The bbox for a window is the OPENING including its casing/trim — outside edge of trim to outside edge of trim — because shutters are sized to that. Do not include existing shutters in the window box; note them with existing_shutters instead.
+2. List EVERY visible window opening on the facade, front-facing and on visible returns, including small ones. Skip windows you can only infer.
+3. Count reference objects honestly. Omit a reference rather than guess a bbox. Lower the confidence when the object is oblique, partly hidden or unusually sized.
+4. Story is judged by vertical position relative to the entry, not by window size.
+5. Arched, round, half-round and transom-topped windows get "shape": "arch".
+6. No markdown fence, no preamble, no trailing text.

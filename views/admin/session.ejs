@@ -1,0 +1,47 @@
+<%- include('../layouts/head', { title: 'Admin · Session' }) %>
+<%- include('_nav') %>
+<h1><%= session.address %> <span class="pill s-<%= session.status %>"><%= session.status %></span></h1>
+<p class="muted"><%= session.id %> · created <%= new Date(session.created_at).toLocaleString() %><% if (session.error) { %> · <b class="err"><%= session.error %></b><% } %>
+<% if (quote) { %> · quote: <%= quote.name %> &lt;<%= quote.email %>&gt; (<%= quote.status %>)<% } %></p>
+<div class="two-col">
+  <div>
+    <h2>Assessment overlay</h2>
+    <% if (assessment && shot) { %>
+    <div class="overlay-wrap"><img id="ov-img" src="<%= shot.secure_url %>" alt="chosen shot"><canvas id="ov-canvas"></canvas></div>
+    <p class="fine">Scale <b><%= Number(assessment.scale_in_per_px).toFixed(4) %> in/px</b> from <b><%= assessment.scale_source %></b>, confidence <b><%= Number(assessment.confidence).toFixed(2) %></b><% if (assessment.json.scale && assessment.json.scale.note) { %> — <%= assessment.json.scale.note %><% } %>. Model <%= assessment.model %> · <%= assessment.prompt_version %> · visibility <%= assessment.json.visibility %></p>
+    <script>window.SV_OVERLAY = <%- JSON.stringify({ imageWH: assessment.json.image_wh, openings, references: assessment.json.reference_objects }) %>;</script>
+    <script src="/js/opening-overlay.js"></script>
+    <table class="grid small"><tr><th>#</th><th>Kind</th><th>Story</th><th>bbox</th><th>Est. W×H (in)</th><th>Included</th><th>Flag</th></tr>
+    <% openings.forEach(o => { %><tr><td><%= o.idx + 1 %></td><td><%= o.kind %><%= o.shape === 'arch' ? ' (arch)' : '' %></td><td><%= o.story %></td><td class="mono"><%= o.bbox.x %>,<%= o.bbox.y %> <%= o.bbox.w %>×<%= o.bbox.h %></td><td><%= o.est_w_in %> × <%= o.est_h_in %></td><td><%= o.include ? 'yes' : 'no' %></td><td class="muted"><%= o.flag || '' %></td></tr><% }) %></table>
+    <details><summary>Assessment JSON</summary><pre class="mono small"><%= JSON.stringify(assessment.json, null, 2) %></pre></details>
+    <% } else { %><p class="muted">No assessment yet.</p><% } %>
+    <h3>Street View shots</h3>
+    <div class="shots"><% shots.forEach(s => { %><figure class="<%= s.chosen ? 'chosen' : '' %>"><img src="<%= s.secure_url %>" alt="heading <%= s.heading %>"><figcaption>heading <%= s.heading %><%= s.chosen ? ' ✓' : '' %></figcaption></figure><% }) %></div>
+    <form method="post" action="/admin/sessions/<%= session.id %>/reassess"><button class="btn">Re-run assessment on chosen shot</button></form>
+  </div>
+  <div>
+    <h2>Renders</h2>
+    <form method="post" action="/admin/sessions/<%= session.id %>/render" class="inline-form">
+      <select name="style"><% options.styles.forEach(s => { %><option value="<%= s.slug %>"><%= s.name %></option><% }) %></select>
+      <select name="material"><% options.materials.forEach(m => { %><option value="<%= m.slug %>"><%= m.name %></option><% }) %></select>
+      <select name="color"><% options.colors.forEach(c => { %><option value="<%= c.slug %>"><%= c.name %></option><% }) %></select>
+      <label><input type="checkbox" name="force" value="1"> force new</label>
+      <button class="btn">Render</button>
+    </form>
+    <% renders.forEach(r => { %>
+    <article class="render-card">
+      <% if (r.secure_url) { %><img src="<%= r.secure_url %>" alt="render"><% } %>
+      <p><b><%= r.style_name %></b> · <%= r.material_name %> · <%= r.color_name %> · <span class="pill s-<%= r.status %>"><%= r.status %></span>
+      <% if (r.qa_score != null) { %>· QA <b><%= Number(r.qa_score).toFixed(2) %></b><% } %> · <%= r.prompt_version %><% if (r.error) { %> · <span class="err"><%= r.error %></span><% } %></p>
+      <p class="fine">BOM: <%= r.pair_count %> pairs, <%= r.single_count %> singles, <%= r.sqft %> sq ft</p>
+      <table class="grid small"><tr><th>Opening</th><th>Type</th><th>Panels</th><th>Panel W×H</th><th>Sections</th><th>Flag</th></tr>
+      <% (r.lines || []).forEach(l => { %><tr><td><%= l.label %></td><td><%= l.kind %></td><td><%= l.qty %></td><td><%= l.panel_w %> × <%= l.panel_h %></td><td><%= l.sections %></td><td class="muted"><%= l.flag || '' %></td></tr><% }) %></table>
+      <details><summary>Prompt</summary><pre class="mono small"><%= r.prompt %></pre></details>
+      <% if (r.qa_json) { %><details><summary>QA</summary><pre class="mono small"><%= JSON.stringify(r.qa_json, null, 2) %></pre></details><% } %>
+    </article>
+    <% }) %>
+    <h3>Events</h3>
+    <table class="grid small"><% events.forEach(e => { %><tr><td class="mono"><%= new Date(e.created_at).toISOString().slice(11,19) %></td><td><%= e.type %></td><td class="mono muted"><%= e.payload ? JSON.stringify(e.payload).slice(0, 160) : '' %></td></tr><% }) %></table>
+  </div>
+</div>
+<%- include('../layouts/foot') %>

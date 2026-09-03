@@ -1,0 +1,43 @@
+# Render Blueprint — one Web Service + one PostgreSQL, both owned by the Southern Shutter Company account.
+# Secrets marked sync:false are entered in the Render dashboard, never here.
+services:
+  - type: web
+    name: shutter-vis
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shutter-vis-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASS
+        sync: false
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: POSTMARK_SERVER_TOKEN
+        sync: false
+      - key: POSTMARK_FROM
+        value: visualizer@southernshutter.com
+      - key: QUOTE_TO_EMAIL
+        value: sales@southernshutter.com
+      - key: EMBED_ALLOWED_ORIGINS
+        value: https://www.southernshutter.com,https://southernshutter.com
+      - key: APP_HOSTNAMES
+        value: visualize.southernshutter.com
+databases:
+  - name: shutter-vis-db
+    plan: basic-256mb
+    postgresMajorVersion: "16"
