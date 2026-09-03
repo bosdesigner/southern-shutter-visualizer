@@ -1,5 +1,5 @@
 // server.js — Express bootstrap for the Southern Shutter visualizer.
-// Express/EJS/Node 20 on Render, PostgreSQL via pg. Host-header tenant resolution on every request.
+// Express/EJS/Node 20 on Replit (Autoscale), Replit Postgres via pg. Host-header tenant resolution on every request.
 require('./lib/env');
 const path = require('path');
 const express = require('express');
@@ -10,7 +10,7 @@ const { isProd } = require('./lib/util');
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const app = express();
 app.disable('x-powered-by');
-app.set('trust proxy', true); // Render terminates TLS; honor X-Forwarded-* so req.protocol/hostname are public.
+app.set('trust proxy', true); // Replit's proxy terminates TLS; honor X-Forwarded-* so req.protocol/hostname are public.
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.json({ limit: '1mb' }));
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 if (isProd() && !process.env.SESSION_SECRET) { console.error('[boot] SESSION_SECRET must be set in production.'); process.exit(1); }
 if (!process.env.SESSION_SECRET) console.warn('[boot] SESSION_SECRET unset — using an insecure dev value.');
 
-// Health first: no tenant lookup, so Render's health check never depends on a hostname match.
+// Health first: no tenant lookup, so a deployment health check never depends on a hostname match.
 app.get('/healthz', async (req, res) => {
   const out = { ok: true, service: 'shutter-vis', node: process.version, time: new Date().toISOString() };
   try {

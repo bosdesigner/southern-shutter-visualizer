@@ -1,7 +1,7 @@
 # Southern Shutter Visualizer (`shutter-vis`)
 
 Address → Street View → Gemini facade assessment → scale solver → bill of materials → Gemini render →
-quote request routed to `sales@southernshutter.com`. Express / EJS / Node 20 on Render, PostgreSQL via `pg`,
+quote request routed to `sales@southernshutter.com`. Express / EJS / Node 20 on Replit (Autoscale deployment), Replit Postgres via `pg`,
 Cloudinary, Postmark, Google Maps Platform. Single tenant seeded; multi-tenant by host header from day one.
 
 Build map and topology: see the build map document (2026-09-03) and `docs/tasks/` for the task sequence.
@@ -24,7 +24,7 @@ BOM on the fixture, a full fixture session, the owner cookie, the quote path, ad
 
 | Path | What |
 |---|---|
-| `server.js` | Express bootstrap, tenant resolver, CSP frame-ancestors, /healthz |
+| `server.js` / `.replit` | Express bootstrap, tenant resolver, CSP frame-ancestors, /healthz · Replit run + deployment config |
 | `store-pg.js` / `migrate.js` | pool + additive boot-time schema |
 | `lib/` | tenant resolver, admin auth, session-owner cookie, rate limit, helpers |
 | `routes/funnel.js` | pipeline orchestrator (stages write artifacts + session status) |

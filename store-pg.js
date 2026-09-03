@@ -11,8 +11,8 @@ if (!process.env.DATABASE_URL) {
 }
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // Render's internal Postgres URL does not need TLS; external URLs do and present a managed cert.
-  ssl: /render\.com|neon\.tech|amazonaws\.com/.test(process.env.DATABASE_URL) ? { rejectUnauthorized: false } : undefined,
+  // Replit's built-in Postgres (Neon) needs TLS; a local dev URL does not.
+  ssl: /neon\.tech|replit|render\.com|amazonaws\.com|sslmode=require/.test(process.env.DATABASE_URL) ? { rejectUnauthorized: false } : undefined,
 });
 
 const DDL = [

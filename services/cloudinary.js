@@ -19,7 +19,7 @@ function sign(params, secret) {
 async function uploadImage(file, folder, opts = {}) {
   const c = cfg();
   if (!c) {
-    if (process.env.NODE_ENV === 'production') throw new Error('cloudinary_not_configured');
+    if (require('../lib/util').isProd()) throw new Error('cloudinary_not_configured');
     return { public_id: null, secure_url: file, width: opts.width || null, height: opts.height || null, local: true };
   }
   const timestamp = Math.floor(Date.now() / 1000);

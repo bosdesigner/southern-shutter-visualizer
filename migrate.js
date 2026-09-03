@@ -1,4 +1,4 @@
-// migrate.js — apply the boot-time schema from the shell (dev + Render pre-deploy), then seed tenants.
+// migrate.js — apply the boot-time schema from the shell (dev, or the Replit Shell against prod), then seed tenants.
 // Same statements store-pg.js init() runs, so the two can never disagree. Additive only.
 //   DATABASE_URL=... node migrate.js
 require('./lib/env');

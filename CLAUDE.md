@@ -1,9 +1,14 @@
 # shutter-vis — working notes for Claude
 
-- **Owner:** Southern Shutter Company owns the product and every account (Render, Cloudinary, Postmark,
+- **Owner:** Southern Shutter Company owns the product and every account (Replit, Cloudinary, Postmark,
   Gemini, Google Maps, GitHub). Ben builds. Never enter credentials; never change DNS.
+- **Replit gotchas (same as AnotherStoryBLDR):** Secrets must be set in BOTH the workspace and the
+  deployment. Replit Postgres gives a separate dev DB and prod DB; the boot-time DDL is additive so publish
+  migrations are always safe to approve. The workspace's git history diverges from GitHub (checkpoints commit
+  locally) — push before building on top of workspace-only changes. `npm install` outside Replit may need
+  `--registry=https://registry.npmjs.org` if the lockfile picks up Replit's package-firewall URLs.
 - **Rules:** `docs/PRODUCTION-OPS.md` binds every change. Dev-verify with real output before anything
-  touches the Render service; explicit OK before a production deploy.
+  touches the Replit deployment; explicit OK before a Publish.
 - **Postgres is the only store.** `DATABASE_URL` required; schema is additive boot-time DDL in `store-pg.js`
   mirrored by `migrate.js`. No Airtable, no JSON store.
 - **Two-call pipeline, assembly is code.** Call #1 (`services/assess.js`) emits strict JSON that is stored

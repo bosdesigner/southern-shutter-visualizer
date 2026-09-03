@@ -72,6 +72,6 @@ r.post('/config', wrap(async (req, res) => {
 
 // "Is the fix live?" — answers without spending a render.
 r.get('/version', (req, res) => res.json({ ok: true, prompts: { assess: assessSvc.PROMPT_VERSION, assemble: assemble.PROMPT_VERSION, verify: verify.PROMPT_VERSION },
-  devFixtures: funnel.devFixtures(), node: process.version, commit: process.env.RENDER_GIT_COMMIT || null }));
+  devFixtures: funnel.devFixtures(), node: process.version, commit: process.env.RENDER_GIT_COMMIT || null, replDeployment: process.env.REPLIT_DEPLOYMENT === '1' }));
 
 module.exports = r;
