@@ -1,0 +1,12 @@
+{
+  "_notes": [
+    "Generated cross-product: style × grade × material line × sections. attrs carry style-specific facts.",
+    "renderable=false keeps interior products out of the render gallery while leaving them quotable later."
+  ],
+  "sections": [1, 2, 3],
+  "louver_size": { "fixed-louver": "1-3/4\"", "movable-louver": "2-1/2\"", "combination": "1-3/4\"", "bahama": "2-1/2\"" },
+  "center_rail": { "paneled": "fixed", "combination": "fixed", "fixed-louver": "fixed", "movable-louver": "fixed" },
+  "control_rods": ["movable-louver"],
+  "nonRenderableMaterials": ["interior"],
+  "singleSectionOnly": ["bahama", "board-batten"]
+}

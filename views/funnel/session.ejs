@@ -1,0 +1,48 @@
+<%- include('../layouts/head', { title: 'Your home' }) %>
+<section id="progress" class="card center">
+  <h2 id="p-title">Finding your home…</h2>
+  <p id="p-addr" class="muted"><%= session.address %></p>
+  <ol class="steps"><li data-s="streetview">Street View</li><li data-s="assessing">Windows</li><li data-s="sizing">Sizing</li><li data-s="rendering">Render</li></ol>
+  <div class="spinner"></div>
+  <p id="p-note" class="fine"></p>
+</section>
+
+<section id="needs" class="card center" hidden>
+  <h2 id="n-title"></h2><p id="n-body"></p>
+  <p><a class="btn" href="/<%= embedMode ? '?embed=1' : '' %>">Try another address</a></p>
+</section>
+
+<section id="gallery" hidden>
+  <div class="gallery-grid">
+    <figure class="hero-render"><img id="g-img" alt="Your home with shutters"><figcaption id="g-cap"></figcaption></figure>
+    <aside class="controls">
+      <h2>Your home with <span id="g-style"></span></h2>
+      <p id="g-bom" class="muted"></p>
+      <label>Style <select id="c-style"></select></label>
+      <label>Color <select id="c-color"></select></label>
+      <label>Material <select id="c-material"></select></label>
+      <button id="c-render" class="btn">Update render</button>
+      <p id="c-status" class="fine"></p>
+      <details><summary>This isn't my house</summary><div id="shots" class="shots"></div></details>
+      <a href="#quote" class="btn primary" id="to-quote"><%= site.copy.quoteHeadline %></a>
+    </aside>
+  </div>
+  <div id="thumbs" class="thumbs"></div>
+
+  <section id="quote" class="card">
+    <h2><%= site.copy.quoteHeadline %></h2>
+    <p class="muted"><%= site.copy.quoteSubhead %></p>
+    <form id="quote-form" class="quote-form">
+      <label>Name <input name="name" required minlength="2"></label>
+      <label>Email <input name="email" type="email" required></label>
+      <label>Phone <input name="phone" type="tel"></label>
+      <label class="full">Notes <textarea name="notes" rows="3" maxlength="1000" placeholder="Anything we should know?"></textarea></label>
+      <input type="hidden" name="renderId" id="q-render">
+      <button class="btn primary" type="submit">Request my quote</button>
+      <p id="q-err" class="err" hidden></p>
+    </form>
+  </section>
+</section>
+<script>window.SV_SESSION = <%- JSON.stringify({ id: session.id, embed: embedMode }) %>;</script>
+<script src="/js/gallery.js"></script>
+<%- include('../layouts/foot') %>

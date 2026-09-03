@@ -1,0 +1,14 @@
+This image is a rendering of a house with exterior shutters. Audit it and answer as one JSON object, nothing else:
+
+{
+  "shutter_count": integer — count every individual shutter panel visible on the facade (a pair counts as 2),
+  "windows_with_shutters": integer,
+  "windows_without_shutters": integer,
+  "style_observed": "fixed louver" | "raised panel" | "combination" | "movable louver" | "board and batten" | "bahama" | "unclear",
+  "style_match": true if style_observed is "{{style_name}}" (case-insensitive, ignoring punctuation), else false,
+  "color_observed": short color phrase,
+  "color_match": true if the shutters read as "{{color_name}}", else false,
+  "house_unchanged": true if the siding, roof, windows, door, landscaping and camera angle appear untouched apart from the shutters; false if anything else was altered or invented,
+  "defects": ["short phrase per defect: floating shutter, shutter covering glass, mismatched sizes within a pair, shutters on the door, ...", ...]
+}
+No markdown fence, no preamble.

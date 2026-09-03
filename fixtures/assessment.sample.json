@@ -1,0 +1,24 @@
+{
+  "_notes": "Hand-authored assessment matching fixtures/facade.svg. Door slab 45px = 80in -> 1.7778 in/px. Expected: 6 pairs (36x60 windows -> 18x60 panels, 2 sections) + 1 pair (48x48 -> 24x48, 1 section) = 14 panels; door excluded.",
+  "image_wh": [640, 480],
+  "stories": 2,
+  "facade_material": "lap siding",
+  "roof_type": "gable",
+  "visibility": "clear",
+  "occlusions": [],
+  "reference_objects": [
+    { "type": "front_door", "bbox": { "x": 300, "y": 315, "w": 20, "h": 45 }, "confidence": 0.95 },
+    { "type": "window_standard", "bbox": { "x": 180, "y": 300, "w": 20, "h": 34 }, "confidence": 0.6 }
+  ],
+  "openings": [
+    { "kind": "window", "bbox": { "x": 180, "y": 300, "w": 20, "h": 34 }, "story": 1, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "lower left window" },
+    { "kind": "window", "bbox": { "x": 240, "y": 300, "w": 20, "h": 34 }, "story": 1, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "lower centre-left window" },
+    { "kind": "door",   "bbox": { "x": 300, "y": 315, "w": 20, "h": 45 }, "story": 1, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "front door" },
+    { "kind": "window", "bbox": { "x": 400, "y": 300, "w": 20, "h": 34 }, "story": 1, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "lower right window" },
+    { "kind": "window", "bbox": { "x": 440, "y": 303, "w": 27, "h": 27 }, "story": 1, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "lower far-right square window" },
+    { "kind": "window", "bbox": { "x": 180, "y": 210, "w": 20, "h": 34 }, "story": 2, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "upper left window" },
+    { "kind": "window", "bbox": { "x": 240, "y": 210, "w": 20, "h": 34 }, "story": 2, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "upper centre-left window" },
+    { "kind": "window", "bbox": { "x": 400, "y": 210, "w": 20, "h": 34 }, "story": 2, "existing_shutters": false, "shape": "rect", "grouped_with": null, "label": "upper right window" }
+  ],
+  "existing_shutter_style_guess": null
+}

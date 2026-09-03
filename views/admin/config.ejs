@@ -1,0 +1,15 @@
+<%- include('../layouts/head', { title: 'Admin · Config' }) %>
+<%- include('_nav') %>
+<h1>Site config — <%= tenant.slug %></h1>
+<p class="muted">Hostnames: <%= (tenant.hostnames || []).join(', ') %> · quotes route to <b><%= tenant.quote_to_email %></b></p>
+<% if (saved) { %><p class="ok">Saved <b><%= saved %></b>.</p><% } %><% if (err) { %><p class="err"><%= err %></p><% } %>
+<% rows.forEach(r => { %>
+<form method="post" action="/admin/config" class="config-row">
+  <input type="hidden" name="key" value="<%= r.key %>">
+  <label><b><%= r.key %></b> <span class="fine">updated <%= new Date(r.updated_at).toLocaleString() %></span>
+  <textarea name="value" rows="<%= Math.min(14, JSON.stringify(r.value, null, 2).split('\n').length) %>" class="mono"><%= JSON.stringify(r.value, null, 2) %></textarea></label>
+  <button class="btn">Save</button>
+</form>
+<% }) %>
+<form method="post" action="/admin/config" class="config-row"><label>New key <input name="key" placeholder="key"></label><label>Value (JSON) <textarea name="value" rows="3" class="mono">{}</textarea></label><button class="btn">Add</button></form>
+<%- include('../layouts/foot') %>

@@ -1,0 +1,30 @@
+{
+  "_notes": [
+    "One tenant for v1 (Southern Shutter Company). Adding a hostname or a second tenant is a config change here + DNS, not a rebuild.",
+    "site_config keys are free-form jsonb read by lib/tenant.js into req.site. Copy lives here so SSC's copy edits are diffable."
+  ],
+  "tenants": [
+    {
+      "id": "ssc",
+      "slug": "southernshutter",
+      "name": "Southern Shutter Company",
+      "hostnames": ["visualize.southernshutter.com", "localhost", "127.0.0.1"],
+      "quote_to_email": "sales@southernshutter.com",
+      "site_config": {
+        "brand": { "name": "Southern Shutter Company", "shortName": "Southern Shutter", "siteUrl": "https://www.southernshutter.com", "logoUrl": null },
+        "colors": { "primary": "#1f3a2e", "accent": "#b8893a", "bg": "#f7f5f0", "text": "#1c1c1c" },
+        "copy": {
+          "headline": "See shutters on your home before you buy.",
+          "subhead": "Enter your address and we'll show your house with Southern Shutter's handcrafted exterior shutters — sized to your windows.",
+          "cta": "Show my home",
+          "quoteHeadline": "Like what you see? Get a quote.",
+          "quoteSubhead": "We'll send your render and window count to our team and follow up within one business day.",
+          "thanks": "Thanks — your quote request is on its way to Southern Shutter."
+        },
+        "embed": { "allowedOrigins": ["https://www.southernshutter.com", "https://southernshutter.com"] },
+        "defaults": { "style": "fixed-louver", "materialLine": "exterior-wood", "color": "black", "galleryStyles": ["fixed-louver", "paneled", "board-batten", "bahama"] },
+        "streetview": { "headings": [-30, -15, 0, 15, 30], "pitch": 5, "fov": 70, "size": "640x640" }
+      }
+    }
+  ]
+}

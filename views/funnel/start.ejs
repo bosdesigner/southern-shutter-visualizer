@@ -1,0 +1,16 @@
+<%- include('../layouts/head', { title: 'Start' }) %>
+<section class="hero">
+  <h1><%= site.copy.headline %></h1>
+  <p class="lede"><%= site.copy.subhead %></p>
+  <form id="start" class="address-form" autocomplete="off">
+    <label for="address" class="sr-only">Street address</label>
+    <input id="address" name="address" type="text" required minlength="6" placeholder="123 Main St, Birmingham, AL" value="<%= address %>">
+    <input type="hidden" name="placeId" id="placeId">
+    <button class="btn primary" type="submit"><%= site.copy.cta %></button>
+    <ul id="suggest" class="suggest" hidden></ul>
+  </form>
+  <p class="fine">We use Google Street View to find your home. No photo upload needed<% if (!mapsConfigured) { %> — <em>Street View is not configured in this environment</em><% } %>.</p>
+  <p id="err" class="err" hidden></p>
+</section>
+<script src="/js/start.js"></script>
+<%- include('../layouts/foot') %>

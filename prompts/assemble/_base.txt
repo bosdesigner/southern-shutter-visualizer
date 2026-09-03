@@ -1,0 +1,15 @@
+Photorealistic architectural photograph: this exact house, from this exact camera position, after {{style_name}} exterior shutters by Southern Shutter Company have been installed. The result must look like the same photograph taken after the installers left.
+
+ABSOLUTE RULES — these win over anything below:
+1. Change NOTHING except adding the shutters. The siding, brick, trim, roof, gutters, door, porch, steps, lighting, landscaping, driveway, cars, sky, neighbours, camera angle, lens and time of day stay exactly as photographed. Do not clean, repaint, straighten or beautify anything.
+2. Install shutters ONLY at the openings listed below, and at every one of them. Total shutter panels in the image: exactly {{shutter_count}} ({{pair_count}} pairs, {{single_count}} singles). No shutters on doors, garage doors, or windows not listed.
+3. Every shutter is mounted flat against the wall beside its window on the wall surface, hinged at the window casing, sized so that the panel height equals the window opening height (top of casing to bottom of casing) and a pair, if closed, would exactly cover the glass. No shutter overlaps glass. No shutter floats over trim or wraps a corner.
+4. Both shutters of a pair are identical in size, style and color and level with each other.
+5. Shutter color: {{color_name}} ({{color_hex}}), a factory finish with a slight satin sheen, on {{material_name}}. The color is uniform on every panel.
+6. {{existing_shutters}}
+7. Shadows and lighting on the shutters match the photograph's light direction; shutters cast a thin shadow onto the wall.
+
+OPENINGS (positions as percentages of image width and height; sizes in inches):
+{{openings}}
+
+PRODUCT — read carefully and reproduce these details exactly:

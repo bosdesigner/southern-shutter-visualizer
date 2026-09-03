@@ -1,0 +1,5 @@
+[
+  { "slug": "exterior-wood", "name": "Exterior Wood", "sort": 1 },
+  { "slug": "exterior-composite", "name": "Exterior Composite", "sort": 2 },
+  { "slug": "interior", "name": "Interior", "sort": 3 }
+]
