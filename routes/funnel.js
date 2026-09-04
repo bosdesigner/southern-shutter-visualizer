@@ -47,7 +47,7 @@ async function stageStreetView(session, site) {
       VALUES ($1,$2,0,0,70,'fixture',$3,1,true) RETURNING *`, [id('shot'), session.id, dataUri]);
     return { ok: true, chosen: shot, imageWH: [640, 480] };
   }
-  if (!streetview.configured()) return { ok: false, status: 'needs_config', reason: 'no GOOGLE_MAPS_API_KEY' };
+  if (!streetview.configured()) return { ok: false, status: 'needs_config', reason: 'no GOOGLE_MAPS_API_KEY / GOOGLE_STREETVIEW_API_KEY' };
   const geo = await streetview.geocode({ address: session.address, placeId: session.place_id });
   if (!geo) return { ok: false, status: 'failed', reason: 'geocode_failed' };
   await store.q('UPDATE sessions SET lat = $2, lng = $3, place_id = COALESCE(place_id, $4), address = COALESCE($5, address) WHERE id = $1',

@@ -2,10 +2,11 @@
 const express = require('express');
 const store = require('../store-pg');
 const wrap = require('../lib/async-handler');
+const streetview = require('../services/streetview');
 const { baseUrl } = require('../lib/util');
 const r = express.Router();
 
-const page = (view) => wrap(async (req, res) => res.render(view, { address: String(req.query.address || '').slice(0, 200), mapsConfigured: Boolean(process.env.GOOGLE_MAPS_API_KEY) }));
+const page = (view) => wrap(async (req, res) => res.render(view, { address: String(req.query.address || '').slice(0, 200), mapsConfigured: streetview.configured() }));
 r.get('/', page('funnel/start'));
 r.get('/start', page('funnel/start'));
 r.get('/embed', page('funnel/start'));

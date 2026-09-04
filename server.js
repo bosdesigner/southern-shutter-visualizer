@@ -66,8 +66,8 @@ async function boot({ listen = true } = {}) {
   const t = await store.seedTenants(require('./config/tenants.seed.json'));
   await tenant.load();
   console.log(`[boot] schema ok (${n} statements), ${t} tenant(s) seeded`);
-  for (const [k, label] of [['GOOGLE_MAPS_API_KEY', 'Street View / Places'], ['GEMINI_API_KEY', 'Gemini'], ['CLOUDINARY_URL', 'Cloudinary'], ['POSTMARK_SERVER_TOKEN', 'Postmark']])
-    if (!process.env[k]) console.warn(`[boot] ${k} unset — ${label} disabled${process.env.DEV_FIXTURES && !isProd() ? ' (DEV_FIXTURES on)' : ''}`);
+  for (const [k, label] of [['GOOGLE_MAPS_API_KEY', 'Street View / Places (or GOOGLE_STREETVIEW_API_KEY)'], ['GEMINI_API_KEY', 'Gemini'], ['CLOUDINARY_URL', 'Cloudinary'], ['POSTMARK_SERVER_TOKEN', 'Postmark']])
+    if (!process.env[k] && !(k === 'GOOGLE_MAPS_API_KEY' && process.env.GOOGLE_STREETVIEW_API_KEY)) console.warn(`[boot] ${k} unset — ${label} disabled${process.env.DEV_FIXTURES && !isProd() ? ' (DEV_FIXTURES on)' : ''}`);
   if (listen) app.listen(PORT, () => console.log(`[boot] shutter-vis listening on :${PORT} (${process.env.NODE_ENV || 'development'})`));
 }
 if (require.main === module) boot().catch((e) => { console.error('[boot] failed:', e.stack || e.message); process.exit(1); });

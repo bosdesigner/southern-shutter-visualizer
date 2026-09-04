@@ -8,7 +8,8 @@
 // Flag F4 from the build map: windows are small targets, so expect more "no usable view" outcomes than a
 // second-story product sees. metadata status != OK -> { ok:false, reason:'no_coverage' } and the session
 // is parked in needs_photo for the Phase 2 upload path.
-const key = () => process.env.GOOGLE_MAPS_API_KEY;
+// Same secret name AnotherStoryBLDR uses (GOOGLE_STREETVIEW_API_KEY) is accepted, so Ben's existing key works as-is.
+const key = () => process.env.GOOGLE_MAPS_API_KEY || process.env.GOOGLE_STREETVIEW_API_KEY;
 const configured = () => Boolean(key());
 
 async function geocode({ address, placeId }) {
@@ -57,7 +58,7 @@ async function staticShot({ panoId, lat, lng, heading, pitch, fov, size }) {
 
 // Pull the candidate shots for a geocoded house. settings = req.site.streetview.
 async function candidateShots({ lat, lng }, settings = {}) {
-  if (!configured()) return { ok: false, reason: 'no GOOGLE_MAPS_API_KEY' };
+  if (!configured()) return { ok: false, reason: 'no GOOGLE_MAPS_API_KEY / GOOGLE_STREETVIEW_API_KEY' };
   const meta = await metadata(lat, lng);
   if (!meta) return { ok: false, reason: 'no_coverage' };
   const base = bearing(meta.lat, meta.lng, lat, lng);
