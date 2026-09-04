@@ -21,7 +21,9 @@ if (isProd() && !process.env.SESSION_SECRET) { console.error('[boot] SESSION_SEC
 if (!process.env.SESSION_SECRET) console.warn('[boot] SESSION_SECRET unset — using an insecure dev value.');
 
 // Health first: no tenant lookup, so a deployment health check never depends on a hostname match.
-app.get('/healthz', async (req, res) => {
+// Served at BOTH paths: Replit's deployment edge intercepts /healthz and answers a Google 404 before the
+// app sees it, so /api/health is the one to curl on a Replit deployment.
+app.get(['/healthz', '/api/health'], async (req, res) => {
   const out = { ok: true, service: 'shutter-vis', node: process.version, time: new Date().toISOString() };
   try {
     const t = await tenant.resolve(req.hostname);
