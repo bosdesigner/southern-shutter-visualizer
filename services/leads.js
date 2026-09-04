@@ -1,5 +1,6 @@
 // services/leads.js — quote persistence. One quote row per session (re-submits update, never duplicate);
-// status: new -> emailed | email_failed. Dedupe key is the session, since a session is one address.
+// status: new -> emailed | unsent (Postmark not configured yet — scripts/send-pending-quotes.js drains these) |
+// email_failed (Postmark configured but the send failed). Dedupe key is the session, since a session is one address.
 const store = require('../store-pg');
 const { id } = require('../lib/util');
 
@@ -16,8 +17,12 @@ async function markEmailed(quoteId, messageId) {
   return store.q(`UPDATE quotes SET status = 'emailed', postmark_message_id = $2 WHERE id = $1`, [quoteId, messageId || null]);
 }
 async function markFailed(quoteId) { return store.q(`UPDATE quotes SET status = 'email_failed' WHERE id = $1`, [quoteId]); }
+async function markUnsent(quoteId) { return store.q(`UPDATE quotes SET status = 'unsent' WHERE id = $1`, [quoteId]); }
+async function pending(tenantId) {
+  return store.many(`SELECT q.* FROM quotes q JOIN sessions s ON s.id = q.session_id WHERE s.tenant_id = $1 AND q.status IN ('unsent','email_failed') ORDER BY q.created_at`, [tenantId]);
+}
 async function list(tenantId, limit = 100) {
   return store.many(`SELECT q.*, s.address, s.status AS session_status FROM quotes q JOIN sessions s ON s.id = q.session_id
     WHERE s.tenant_id = $1 ORDER BY q.created_at DESC LIMIT $2`, [tenantId, limit]);
 }
-module.exports = { upsertQuote, markEmailed, markFailed, list };
+module.exports = { upsertQuote, markEmailed, markFailed, markUnsent, pending, list };

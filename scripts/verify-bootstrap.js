@@ -73,10 +73,10 @@ const check = (name, fn) => Promise.resolve().then(fn).then(() => results.push([
     const bom = await store.one('SELECT b.* FROM boms b JOIN renders r ON r.bom_id = b.id WHERE r.id = $1', [a.body.render.id]); assert.equal(bom.single_count, 7);
   });
   await check('render POST without the owner cookie is refused', async () => { const saved = cookie; cookie = ''; const r = await j(`/api/session/${sid}/render`, { method: 'POST', body: '{}' }); cookie = saved; assert.equal(r.status, 403); });
-  await check('quote is stored, routed to sales@, email skipped honestly without Postmark', async () => {
+  await check('quote is stored as unsent, routed to sales@, when Postmark is unconfigured', async () => {
     const r = await j(`/api/session/${sid}/quote`, { method: 'POST', body: JSON.stringify({ name: 'Verify Bot', email: 'verify@example.com', phone: '205-555-0100', notes: 'test' }) });
     assert.equal(r.status, 200, JSON.stringify(r.body)); assert.equal(r.body.emailed, false);
-    const q = await store.one('SELECT * FROM quotes WHERE session_id = $1', [sid]); assert.equal(q.routed_to, 'sales@southernshutter.com'); assert.equal(q.status, 'email_failed');
+    const q = await store.one('SELECT * FROM quotes WHERE session_id = $1', [sid]); assert.equal(q.routed_to, 'sales@southernshutter.com'); assert.equal(q.status, 'unsent');
   });
   await check('admin: 401 without creds, 200 with, session page renders overlay', async () => {
     assert.equal((await fetch(`${base}/admin/leads`)).status, 401);

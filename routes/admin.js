@@ -4,6 +4,7 @@ const express = require('express');
 const store = require('../store-pg');
 const funnel = require('./funnel');
 const leads = require('../services/leads');
+const postmark = require('../services/postmark');
 const tenant = require('../lib/tenant');
 const assessSvc = require('../services/assess');
 const assemble = require('../services/assemble');
@@ -21,7 +22,7 @@ r.get('/leads', wrap(async (req, res) => {
     FROM sessions s WHERE s.tenant_id = $1 ORDER BY s.created_at DESC LIMIT 100`, [req.tenant.id]);
   const funnelCounts = await store.many(`SELECT type, count(*)::int AS n FROM events e JOIN sessions s ON s.id = e.session_id WHERE s.tenant_id = $1
     AND type IN ('session_created','status:ready','status:needs_photo','status:failed','status:needs_config','quote_submitted','style_changed','shot_changed') GROUP BY type ORDER BY type`, [req.tenant.id]);
-  res.render('admin/leads', { quotes, sessions, funnelCounts });
+  res.render('admin/leads', { quotes, sessions, funnelCounts, postmarkConfigured: postmark.configured(), unsent: quotes.filter((q) => q.status === 'unsent' || q.status === 'email_failed').length });
 }));
 
 r.get('/sessions/:id', wrap(async (req, res) => {

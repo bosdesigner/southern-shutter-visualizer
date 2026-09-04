@@ -1,6 +1,7 @@
 <%- include('../layouts/head', { title: 'Admin · Leads' }) %>
 <%- include('_nav') %>
 <h1>Quotes</h1>
+<% if (!postmarkConfigured) { %><p class="banner"><b>Email is off</b> — Postmark is not configured, so quote requests are held here with status <span class="pill s-unsent">unsent</span> and nothing goes to sales@ yet. Check this page for new leads. Once <code>POSTMARK_SERVER_TOKEN</code> is set, run <code>npm run send:pending</code> to deliver the backlog.<% if (unsent) { %> <b><%= unsent %> waiting.</b><% } %></p><% } else if (unsent) { %><p class="banner"><b><%= unsent %> quote<%= unsent === 1 ? '' : 's' %> not yet emailed.</b> Run <code>npm run send:pending</code> to deliver them.</p><% } %>
 <p class="muted">Funnel: <% funnelCounts.forEach(c => { %><span class="pill"><%= c.type %> <b><%= c.n %></b></span> <% }) %></p>
 <table class="grid"><tr><th>When</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Routed to</th><th>Status</th><th></th></tr>
 <% quotes.forEach(q => { %><tr><td><%= new Date(q.created_at).toLocaleString() %></td><td><%= q.name %></td><td><a href="mailto:<%= q.email %>"><%= q.email %></a></td><td><%= q.phone || '' %></td><td><%= q.address %></td><td><%= q.routed_to || '' %></td><td><span class="pill s-<%= q.status %>"><%= q.status %></span></td><td><a href="/admin/sessions/<%= q.session_id %>">session</a></td></tr><% }) %>

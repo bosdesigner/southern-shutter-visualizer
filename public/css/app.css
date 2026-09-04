@@ -21,6 +21,7 @@ h1{font-size:30px;line-height:1.2;margin:0 0 12px}h2{font-size:22px;margin:0 0 8
 .thanks-img{max-width:100%;border-radius:10px;margin:12px 0}
 .admin-nav{display:flex;gap:16px;align-items:center;padding:10px 0 18px;border-bottom:1px solid #ddd;margin-bottom:18px;font-size:14px}
 table.grid{width:100%;border-collapse:collapse;background:#fff;margin:8px 0 18px;font-size:14px}table.grid th,table.grid td{border:1px solid #e3ded4;padding:6px 8px;text-align:left;vertical-align:top}table.grid th{background:#f0ece3}
+.banner{background:#fbeccc;border:1px solid #e8c98a;border-radius:8px;padding:10px 14px;font-size:14px}.s-unsent{background:#fbeccc}
 .pill{display:inline-block;padding:1px 8px;border-radius:12px;background:#eee;font-size:12px}.s-ready,.s-done,.s-emailed,.s-fixture{background:#d8efdc}.s-failed,.s-email_failed{background:#f5d3d3}.s-needs_photo,.s-needs_config,.s-rendering,.s-assessing,.s-streetview,.s-sizing{background:#fbeccc}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}@media(max-width:900px){.two-col{grid-template-columns:1fr}}
 .overlay-wrap{position:relative;display:inline-block;max-width:100%}.overlay-wrap img{display:block;max-width:100%}.overlay-wrap canvas{position:absolute;left:0;top:0;pointer-events:none}

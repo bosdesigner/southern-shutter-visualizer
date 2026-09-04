@@ -81,7 +81,9 @@ r.post('/session/:id/quote', requireOwner, rateLimit({ max: 5 }), wrap(async (re
   await store.logEvent(s.id, 'quote_submitted', { quote: quote.id, render: render && render.id });
   const adminUrl = `${baseUrl(req)}/admin/sessions/${s.id}`;
   const sales = await postmark.send({ to: routedTo, replyTo: email, tag: 'quote-request', ...postmark.composeQuoteToSales({ tenant: req.tenant, quote, session: s, bom, render, adminUrl }) });
-  if (sales.sent) await leads.markEmailed(quote.id, sales.messageId); else { await leads.markFailed(quote.id); console.error('[quote] sales email not sent:', sales.reason); }
+  if (sales.sent) await leads.markEmailed(quote.id, sales.messageId);
+  else if (sales.reason === 'postmark_not_configured') { await leads.markUnsent(quote.id); console.warn('[quote] Postmark not configured — quote %s held as unsent (see /admin/leads)', quote.id); }
+  else { await leads.markFailed(quote.id); console.error('[quote] sales email not sent:', sales.reason); }
   const conf = await postmark.send({ to: email, tag: 'quote-confirmation', ...postmark.composeQuoteConfirmation({ tenant: req.tenant, quote, session: s, render }) });
   await store.logEvent(s.id, 'quote_emails', { sales: sales.sent ? 'sent' : sales.reason, confirmation: conf.sent ? 'sent' : conf.reason });
   res.json({ ok: true, quoteId: quote.id, emailed: sales.sent, url: `${baseUrl(req)}/thanks/${s.id}${res.locals.embedMode ? '?embed=1' : ''}` });

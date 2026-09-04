@@ -4,7 +4,8 @@
 **Outcome:** Postmark templates; test send to Ben, then to `sales@`.
 
 - `services/postmark.js`: sales email (lead details, BOM table, render, admin link, reply-to homeowner) + homeowner confirmation.
-- Quote row is written BEFORE sending; `status` = emailed | email_failed; `postmark_message_id` stored.
+- Quote row is written BEFORE sending; `status` = emailed | unsent (Postmark not configured) | email_failed; `postmark_message_id` stored.
+- **Launching without email is supported:** `/admin/leads` shows an "Email is off" banner and every quote as `unsent`; SSC works the list from there. When the token lands, `npm run send:pending` delivers the backlog (`--dry-run` lists it first).
 
 ## To finish
 1. SSC creates the Postmark server; adds DKIM + Return-Path for `southernshutter.com`; sender signature for `POSTMARK_FROM`.
