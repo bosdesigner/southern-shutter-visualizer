@@ -1,7 +1,8 @@
 // services/cloudinary.js — server-side signed uploads (pattern from AnotherStoryBLDR lib/cloudinary.js).
 // Config is the canonical CLOUDINARY_URL=cloudinary://key:secret@cloud. Image bytes never persist on our disk.
-// Unconfigured (local dev): uploadImage() returns the input reference unchanged with public_id null, so a
-// data URI simply rides along in secure_url columns until Cloudinary exists. Never do that in production.
+// Unconfigured: uploadImage() returns the input reference unchanged with public_id null, so a data URI rides
+// along in secure_url columns until Cloudinary exists. Acceptable for a soft launch (a session is ~5 shots +
+// a few renders, under 1 MB); the boot log and /admin/version say so loudly. Email embeds skip data URIs.
 const crypto = require('crypto');
 
 function cfg() {
@@ -9,6 +10,7 @@ function cfg() {
   return m ? { apiKey: m[1], apiSecret: m[2], cloudName: m[3] } : null;
 }
 const configured = () => Boolean(cfg());
+let warned = false;
 
 function sign(params, secret) {
   const toSign = Object.keys(params).filter((k) => params[k] != null && params[k] !== '').sort().map((k) => `${k}=${params[k]}`).join('&');
@@ -19,7 +21,7 @@ function sign(params, secret) {
 async function uploadImage(file, folder, opts = {}) {
   const c = cfg();
   if (!c) {
-    if (require('../lib/util').isProd()) throw new Error('cloudinary_not_configured');
+    if (!warned) { warned = true; console.warn('[cloudinary] CLOUDINARY_URL unset — storing images inline in Postgres (fine for a soft launch, not for volume)'); }
     return { public_id: null, secure_url: file, width: opts.width || null, height: opts.height || null, local: true };
   }
   const timestamp = Math.floor(Date.now() / 1000);

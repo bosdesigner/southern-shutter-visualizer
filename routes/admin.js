@@ -9,6 +9,9 @@ const tenant = require('../lib/tenant');
 const assessSvc = require('../services/assess');
 const assemble = require('../services/assemble');
 const verify = require('../services/verify');
+const cloudinary = require('../services/cloudinary');
+const gemini = require('../services/gemini');
+const streetview = require('../services/streetview');
 const wrap = require('../lib/async-handler');
 const { requireAdmin } = require('../lib/admin-auth');
 const r = express.Router();
@@ -73,6 +76,7 @@ r.post('/config', wrap(async (req, res) => {
 
 // "Is the fix live?" — answers without spending a render.
 r.get('/version', (req, res) => res.json({ ok: true, prompts: { assess: assessSvc.PROMPT_VERSION, assemble: assemble.PROMPT_VERSION, verify: verify.PROMPT_VERSION },
+  configured: { streetview: streetview.configured(), gemini: gemini.configured(), cloudinary: cloudinary.configured(), postmark: postmark.configured() },
   devFixtures: funnel.devFixtures(), node: process.version, commit: process.env.RENDER_GIT_COMMIT || null, replDeployment: process.env.REPLIT_DEPLOYMENT === '1' }));
 
 module.exports = r;
