@@ -20,14 +20,14 @@ open http://localhost:3000
 `npm run smoke -- https://<deployment> "<address>"` walks a RUNNING deployment end to end (one real session) and prints a
 PASS/FAIL line per step; add `ADMIN_USER`/`ADMIN_PASS` in the environment to include the admin checks.
 
-`npm run verify:bootstrap` boots against `DATABASE_URL` and checks /healthz, the catalog, the scale solver and
+`npm run verify:bootstrap` boots against `DATABASE_URL` and checks /api/health, the catalog, the scale solver and
 BOM on the fixture, a full fixture session, the owner cookie, the quote path, admin auth and the embed headers.
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `server.js` / `.replit` | Express bootstrap, tenant resolver, CSP frame-ancestors, /healthz · Replit run + deployment config |
+| `server.js` / `.replit` | Express bootstrap, tenant resolver, CSP frame-ancestors, /api/health · Replit run + deployment config |
 | `store-pg.js` / `migrate.js` | pool + additive boot-time schema |
 | `lib/` | tenant resolver, admin auth, session-owner cookie, rate limit, helpers |
 | `routes/funnel.js` | pipeline orchestrator (stages write artifacts + session status) |
