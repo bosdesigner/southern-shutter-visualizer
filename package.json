@@ -12,6 +12,7 @@
     "verify:template": "node scripts/verify-template.js",
     "verify:bootstrap": "node scripts/verify-bootstrap.js",
     "send:pending": "node scripts/send-pending-quotes.js",
+    "smoke": "node scripts/smoke-funnel.js",
     "check": "for f in $(git ls-files '*.js'); do node --check \"$f\" || exit 1; done"
   },
   "engines": {

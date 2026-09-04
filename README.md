@@ -17,6 +17,9 @@ DEV_FIXTURES=1 npm run dev      # no API keys needed: fixture facade + fixture a
 open http://localhost:3000
 ```
 
+`npm run smoke -- https://<deployment> "<address>"` walks a RUNNING deployment end to end (one real session) and prints a
+PASS/FAIL line per step; add `ADMIN_USER`/`ADMIN_PASS` in the environment to include the admin checks.
+
 `npm run verify:bootstrap` boots against `DATABASE_URL` and checks /healthz, the catalog, the scale solver and
 BOM on the fixture, a full fixture session, the owner cookie, the quote path, admin auth and the embed headers.
 
